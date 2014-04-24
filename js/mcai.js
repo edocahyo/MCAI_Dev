@@ -58,12 +58,7 @@
 
         parser.parse();
 		
-		//setting printing seb
-		//app.printUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task";
-		//esriConfig.defaults.io.proxyUrl = "/proxy";
-		
-		
-        map = new Map("map", {
+		map = new Map("map", {
           basemap: "topo", 
           center: [-242, -2],
           zoom: 5
@@ -84,11 +79,6 @@
         }, "measurementDiv");
         measurement.startup();
 
-		//add print feature
-		
-		
-		//
-		
 		mcaiLayer = new ArcGISDynamicMapServiceLayer("http://117.54.11.70:6080/arcgis/rest/services/mcai/Modeldemo_indonesia/MapServer", {
 		});
 		d_meranginLayer = new ArcGISDynamicMapServiceLayer("http://117.54.11.70:6080/arcgis/rest/services/mcai/Modeldemo_merangin/MapServer", {
@@ -98,6 +88,7 @@
 		
 		//addMCAILayers();
 		isiBookmarks();
+		setPrinter();
 		
 		//add TOC new layer list
 		map.on('layers-add-result', function(evt){
@@ -145,16 +136,55 @@
 		
 		map.addLayers([mcaiLayer, d_meranginLayer, landscapeLayer]);
 		
-		//map.on("click", checkLayers);
-				
 		//all functions
-        function handleError(err) {
-          console.log("Something broke: ", err);
-        }
+		function setPrinter() {
+			var printTitle = "MCA - Indonesia"
+			var printUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task";
+			esriConfig.defaults.io.proxyUrl = "/mcai_dev/proxy";
+			
+			var layoutTemplate, templateNames, mapOnlyIndex, templates;
+          
+          // create an array of objects that will be used to create print templates
+			var layouts = [{
+				name: "Letter ANSI A Landscape", 
+				label: "Landscape (PDF)", 
+				format: "pdf",             
+			}, {
+				name: "Letter ANSI A Portrait", 
+				label: "Portrait (Image)", 
+				format: "jpg",             
+			}];
+          
+          // create the print templates
+			var legendLayer = new esri.tasks.LegendLayer();
+			legendLayer.layerId = "defaultBasemap";
+	
+			var templates = arrayUtils.map(layouts, function(lo) {
+            var t = new PrintTemplate();
+            t.layout = lo.name;
+            t.label = lo.label;
+            t.format = lo.format;
+            t.layoutOptions = {
+				"authorText": "Made by:  MCA - Indonesia",
+				"copyrightText": "Copy right: MCA - Indonesia 2014",
+				"legendLayers": [d_meranginLayer], 
+				"titleText": printTitle, 
+				"scalebarUnit": "Kilometers" 
+			}
+			
+            return t;
+          });
 
-		
-		function checkLayers() {
+			var printer = new Print({
+				map: map,
+				templates: templates,
+				url: printUrl
+			}, dom.byId("print_button"));
+			printer.startup();
 		}
+		
+		
+		
 		
 		function isiBookmarks(){
 			// Bookmarks can be specified as an array of objects with the structure:

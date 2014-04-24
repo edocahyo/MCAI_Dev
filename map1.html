@@ -23,7 +23,8 @@
                   };
 </script>
 <script src="http://js.arcgis.com/3.9/"></script>
-<script src="./js/mcai.js"></script>  
+<script src="./js/mcai.js"></script>
+
 </head>
 
 <body class="claro" background="images/batik-tile.jpg">
@@ -49,7 +50,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td>				
 					<div data-dojo-type="dijit.MenuBar" id="navMenu">
 					    <div data-dojo-type="dijit/MenuBarItem">
 					        <span><div id="HomeButton"></div></span>
@@ -73,8 +74,12 @@
 						
 						<div data-dojo-type="dijit.PopupMenuBarItem">
 					        <span>Print</span>
-					        <div data-dojo-type="dijit.DropDownMenu">
-					        </div>
+								<div data-dojo-type="dijit.DropDownMenu">
+									<div id="infoPrint">
+										Please choose your printing format : <div id="print_button"></div>
+										Click "printout" link to download the result.
+									</div>
+								</div>					        
 					    </div>
 						
 						<div data-dojo-type="dijit.PopupMenuBarItem">
@@ -83,11 +88,6 @@
 								<div id="divTOC"><div id="toggle"></div></div>								
 					        </div>
 					    </div>
-						<!--<div data-dojo-type="dijit.PopupMenuBarItem">
-					        <span>Legend</span>
-					        <div data-dojo-type="dijit.DropDownMenu" id="divPine2">
-								<div id="legendDiv"></div>
-					        </div>-->
 					    </div>						
 					</div>									
 				</td>
