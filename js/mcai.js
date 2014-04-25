@@ -8,6 +8,7 @@
 	  "esri/dijit/InfoWindowLite",	  
 	  "esri/dijit/HomeButton",
       "esri/dijit/Bookmarks",
+	  "esri/dijit/Scalebar",
       "esri/layers/FeatureLayer",
 	  "esri/layers/ArcGISTiledMapServiceLayer", 
 	  "esri/layers/ArcGISDynamicMapServiceLayer",
@@ -15,7 +16,8 @@
 	  
 	  "esri/symbols/SimpleFillSymbol",
 	  "esri/renderers/ClassBreaksRenderer",
-	  
+	   "esri/geometry/Extent", 
+	   
 	  "esri/dijit/Print", "esri/tasks/PrintTemplate", 
       "esri/request", "esri/config",
 		
@@ -46,9 +48,9 @@
 	  "dojo/domReady!"
     ],
       function (
-        Map, utils, InfoTemplate, Legend, InfoWindowLite, HomeButton, Bookmarks, FeatureLayer, 
+        Map, utils, InfoTemplate, Legend, InfoWindowLite, HomeButton, Bookmarks, Scalebar,FeatureLayer, 
 			ArcGISTiledMapServiceLayer, ArcGISDynamicMapServiceLayer, ImageParameters,  
-			SimpleFillSymbol, ClassBreaksRenderer, Print, PrintTemplate, esriRequest, esriConfig,
+			SimpleFillSymbol, ClassBreaksRenderer, Extent, Print, PrintTemplate, esriRequest, esriConfig,
 		domConstruct, dom, on, parser, query, arrayUtils, connect, Color, 
 		CheckBox, AccordionContainer, BorderContainer, ContentPane, 
 			TitlePane, MenuBar, PopupMenuBarItem, Menu, MenuItem, DropDownMenu, 
@@ -59,9 +61,16 @@
         parser.parse();
 		
 		map = new Map("map", {
-          basemap: "topo", 
-          center: [-242, -2],
-          zoom: 5
+			basemap: "topo", 
+			//extent: new Extent(
+			//{"xmin":10297596.450576257,"ymin":-1599674.1279517894,"xmax":16079904.766291732,"ymax":934366.2337577001,"spatialReference":{"wkid":102100}}
+			//{"xmin":91.494140625,"ymin":-10.986328125,"xmax":140.4052734375,"ymax":9.755859375,"spatialReference":{"wkid":4326}}
+			//),
+			center: [-240, -2],
+			zoom: 5,
+			showAttribution: false,
+			sliderPosition: "top-right",
+			sliderStyle: "large"
         });
 
 		var basemap = map.getLayer(map.layerIds[0]);
@@ -78,12 +87,22 @@
           map: map
         }, "measurementDiv");
         measurement.startup();
-
+		
+		//add scalebar
+		var scalebar = new Scalebar({
+		map: map,
+		scalebarStyle: "ruler",
+        attachTo:"bottom-left", 
+		scalebarUnit: "dual"
+        },dojo.byId("scalebarDiv"));
+		
+		indonesiaLayer = new ArcGISDynamicMapServiceLayer("http://117.54.11.70:6080/arcgis/rest/services/mcai/Modeldemo_indonesia_blank/MapServer", {
+		});
 		mcaiLayer = new ArcGISDynamicMapServiceLayer("http://117.54.11.70:6080/arcgis/rest/services/mcai/Modeldemo_indonesia/MapServer", {
 		});
 		d_meranginLayer = new ArcGISDynamicMapServiceLayer("http://117.54.11.70:6080/arcgis/rest/services/mcai/Modeldemo_merangin/MapServer", {
 		});
-		landscapeLayer = new ArcGISDynamicMapServiceLayer("http://117.54.11.70:6080/arcgis/rest/services/mcai/Model_demo/MapServer", {
+		landscapeLayer = new ArcGISDynamicMapServiceLayer("http://117.54.11.70:6080/arcgis/rest/services/mcai/Modeldemo_Landscape_analysis/MapServer", {
 		});
 		
 		//addMCAILayers();
@@ -134,7 +153,7 @@
 		//} catch (e) {  alert(e); }		 
 		});
 		
-		map.addLayers([mcaiLayer, d_meranginLayer, landscapeLayer]);
+		map.addLayers([indonesiaLayer, mcaiLayer, d_meranginLayer, landscapeLayer]);
 		
 		//all functions
 		function setPrinter() {
