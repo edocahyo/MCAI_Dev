@@ -177,7 +177,7 @@
           // create the print templates
 			var legendLayer = new esri.tasks.LegendLayer();
 			legendLayer.layerId = "defaultBasemap";
-	
+
 			var templates = arrayUtils.map(layouts, function(lo) {
             var t = new PrintTemplate();
             t.layout = lo.name;
@@ -185,8 +185,8 @@
             t.format = lo.format;
             t.layoutOptions = {
 				"authorText": "Made by:  MCA - Indonesia",
-				"copyrightText": "Copy right: MCA - Indonesia 2014",
-				"legendLayers": [d_meranginLayer], 
+				"copyrightText": "Copyright: MCA - Indonesia 2014",
+				//"legendLayers": layerIds , 
 				"titleText": printTitle, 
 				"scalebarUnit": "Kilometers" 
 			}
@@ -210,30 +210,26 @@
 			// { extent: <esri.geometry.Extent>, name: <some string> }
 			var bookmarks_list = [
 			{
-			  "extent":   {"xmin":11227987.95886309,"ymin":-282511.2565420469,"xmax":11436813.920138273,"ymax":-187423.5933552512,"spatialReference":{"wkid":102100}}
+			  "extent":    {"xmin":11331789.443274448,"ymin":-278842.2791843226,"xmax":11749441.365824448,"ymax":-88666.95281089576,"spatialReference":{"wkid":102100}}
+			  ,"name": "Muaro Jambi" 
+			},
+			{
+			  "extent":   {"xmin":11138098.013599884,"ymin":-344883.87162266456,"xmax":11555749.936149884,"ymax":-154708.54524923777,"spatialReference":{"wkid":102100}}
 			  ,"name": "Merangin" 
 			},
 			{
-			  "extent":  {"xmin":13064616.874498943,"ymin":-307276.85370637296,"xmax":13482268.797048943,"ymax":-117101.52733294613,"spatialReference":{"wkid":102100}}
+			  "extent":   {"xmin":12865880.600957407,"ymin":-415817.43387136597,"xmax":13701184.446057772,"ymax":-35466.78112434782,"spatialReference":{"wkid":102100}}
 				,"name": "Mamuju" 
 			},
 			{
-			  "extent":  {"xmin":13242103.654177047,"ymin":-359789.0921383136,"xmax":13346516.634814456,"ymax":-312245.260544998,"spatialReference":{"wkid":102100}}
+			  "extent":    {"xmin":13180648.283435678,"ymin":-381573.64519963,"xmax":13389474.24471086,"ymax":-286485.98201283434,"spatialReference":{"wkid":102100}}
 				,"name": "Mamasa" 
 			}
 			];
 
 			var bookmarks_landscape = [{
-			  "extent": {
-				"xmin": 11162557.862651093,
-				"ymin": -343049.3829438085, 
-				"xmax": 11580209.785201093,
-				"ymax": -152874.05657038168,
-				"spatialReference": {
-					"wkid": 102100
-				}
-			  },
-			  "name": "Sungai Tenang" 
+			  "extent":  {"xmin":11326477.06980866,"ymin":-297187.16597275843,"xmax":11378683.560127364,"ymax":-273415.25017610064,"spatialReference":{"wkid":102100}}
+			  ,"name": "Sungai Tenang" 
 			}];
 			
 			// Create the bookmark widget
